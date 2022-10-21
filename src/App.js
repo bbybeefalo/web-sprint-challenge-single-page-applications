@@ -12,7 +12,7 @@ const App = () => {
       <h1>Bloomtech Eats</h1>
       <div class='nav-links'>
         <Link to='/'>Home</Link>
-        <Link id='order-pizza' to='/pizza'>Order</Link>
+        <Link id='order-pizza'to='/pizza'>Order</Link>
       </div>
       </div>
       <Route exact path='/' component={Home} />
