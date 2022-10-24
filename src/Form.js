@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import axios from 'axios';
+import * as yup from 'yup';
+import schema from './formSchema';
 
 function Form() {
-const [pizza, setPizza] = useState([])
+const [formErrors, setFormErrors] = useState([])
 const [newOrder, setNewOrder] = useState({
     name: '',
     size: '',
@@ -16,22 +18,13 @@ const [newOrder, setNewOrder] = useState({
  const onChange = evt => {
     const {name, value, checked, type} = evt.target;
     const valueToUse = type === "checkbox" ? checked : value
-    console.log('Butts and butts', valueToUse)
+    validate(name, value);
     setNewOrder({...newOrder, [name]: valueToUse});
     console.log(newOrder)
  }
 
  const onSubmit = evt => {
     evt.preventDefault();
-    //  setPizza({
-    //     name: newOrder.name,
-    //     size: newOrder.size,
-    //     pepperoni: newOrder.pepperoni,
-    //     onion: newOrder.onion,
-    //     bacon: newOrder.bacon,
-    //     mushrooms: newOrder.mushrooms,
-    //     special: newOrder.special
-    // })
     console.log(newOrder);
     axios.post("https://reqres.in/api/orders", newOrder)
     .then(res => {
@@ -40,7 +33,20 @@ const [newOrder, setNewOrder] = useState({
     .catch(err =>{
         console.err(err)
     })
-    setNewOrder(newOrder)
+    setNewOrder({ name: '',
+    size: '',
+    pepperoni: false,
+    onion: false,
+    bacon: false,
+    mushrooms: false,
+    special: ''})
+ }
+
+ const validate = (name, value) => {
+    yup.reach(schema, name)
+    .validate(value)
+    .then(()=> setFormErrors({...formErrors, [name]: ""}))
+    .catch(err => setFormErrors({...formErrors, [name]: err.errors[0]}))
  }
 
 return (
