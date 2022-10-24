@@ -2,7 +2,8 @@ import { useState } from 'react';
 import axios from 'axios';
 
 function Form() {
-const [pizza, setPizza] = useState({
+const [pizza, setPizza] = useState([])
+const [newOrder, setNewOrder] = useState({
     name: '',
     size: '',
     pepperoni: false,
@@ -10,19 +11,37 @@ const [pizza, setPizza] = useState({
     bacon: false,
     mushrooms: false,
     special: ''
-})
-const [newOrder, setNewOrder] = useState([]);
+});
 
-const onChange = evt => {
-    const name = evt.target.name;
-    const {value} = evt.target;
-    setPizza({...pizza, [name]: value});
-}
+ const onChange = evt => {
+    const {name, value, checked, type} = evt.target;
+    const valueToUse = type === "checkbox" ? checked : value
+    console.log('Butts and butts', valueToUse)
+    setNewOrder({...newOrder, [name]: valueToUse});
+    console.log(newOrder)
+ }
 
-const onSubmit = evt => {
+ const onSubmit = evt => {
     evt.preventDefault();
-
-}    
+    //  setPizza({
+    //     name: newOrder.name,
+    //     size: newOrder.size,
+    //     pepperoni: newOrder.pepperoni,
+    //     onion: newOrder.onion,
+    //     bacon: newOrder.bacon,
+    //     mushrooms: newOrder.mushrooms,
+    //     special: newOrder.special
+    // })
+    console.log(newOrder);
+    axios.post("https://reqres.in/api/orders", newOrder)
+    .then(res => {
+        console.log(res)
+    })
+    .catch(err =>{
+        console.err(err)
+    })
+    setNewOrder(newOrder)
+ }
 
 return (
     <div className="form-container">
@@ -33,13 +52,13 @@ return (
             type="text"
             name="name"
             placeholder="Your Name"
-            value={pizza.name}
+            value={newOrder.name}
             onChange={onChange}
             />
         </label>
         <label>Size:
             <select 
-            value={pizza.size} 
+            value={newOrder.size} 
             name="size" 
             id="size-dropdown"
             onChange={onChange}>
@@ -54,28 +73,28 @@ return (
             <input
             type="checkbox"
             name="pepperoni"
-            checked={pizza.pepperoni}
+            checked={newOrder.pepperoni}
             onChange={onChange} />
         </label>
         <label>Onion:
             <input
             type="checkbox"
             name="onion"
-            checked={pizza.onion}
+            checked={newOrder.onion}
             onChange={onChange} />
         </label>
         <label>Bacon:
             <input
             type="checkbox"
             name="bacon"
-            checked={pizza.bacon}
+            checked={newOrder.bacon}
             onChange={onChange} />
         </label>
         <label>Mushrooms:
             <input
             type="checkbox"
             name="mushrooms"
-            checked={pizza.mushrooms}
+            checked={newOrder.mushrooms}
             onChange={onChange} />
         </label>
         <label>Special Instructions:
@@ -84,10 +103,10 @@ return (
             type="text"
             name="special"
             placeholder="Special instructions?"
-            value={pizza.special}
+            value={newOrder.special}
             onChange={onChange} />
         </label>
-        <input type="submit" value="Order!" />
+        <input type="submit" value="Add to order!" />
     </form>
     </div>
 );

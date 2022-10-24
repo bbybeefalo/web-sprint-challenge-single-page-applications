@@ -8,9 +8,9 @@ const App = () => {
 
   return (
     <header>
-      <div class="nav-bar">
+      <div className="nav-bar">
       <h1>Bloomtech Eats</h1>
-      <div class='nav-links'>
+      <div className='nav-links'>
         <Link to='/'>Home</Link>
         <Link id='order-pizza'to='/pizza'>Order</Link>
       </div>

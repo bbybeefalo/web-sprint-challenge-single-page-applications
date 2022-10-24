@@ -56,7 +56,7 @@ h1 {
 }
 
 .form-container{
-  justify-content: center;
+  
   flex-direction: column;
   color: white;
   
@@ -65,4 +65,9 @@ h1 {
 
 input {
   width: 20vh;
+  background-color: white;
+}
+
+.size-dropdown{
+  background-color: white;
 }
