@@ -68,6 +68,7 @@ return (
                 <option value="Large">Large</option>
             </select>
         </label>
+        <div className='topping-box'>
         <h3>Toppings:</h3>
         <label>Pepperoni:
             <input
@@ -97,6 +98,7 @@ return (
             checked={newOrder.mushrooms}
             onChange={onChange} />
         </label>
+        </div>
         <label>Special Instructions:
             <input
             id="special-text"
@@ -106,7 +108,7 @@ return (
             value={newOrder.special}
             onChange={onChange} />
         </label>
-        <input type="submit" value="Add to order!" />
+        <input id="order-button" type="submit" value="Add to order!" />
     </form>
     </div>
 );
